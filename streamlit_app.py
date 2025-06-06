@@ -5,7 +5,7 @@ import joblib
 from sklearn.preprocessing import StandardScaler
 
 # Load model dan scaler
-model = joblib.load("model_rf.pkl")  # Model terbaik kita adalah Random Forest
+model = joblib.load("model.pkl")  # Model terbaik kita adalah Random Forest
 scaler = joblib.load("scaler.pkl")
 
 # Judul
