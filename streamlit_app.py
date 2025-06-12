@@ -12,7 +12,7 @@ def apply_custom_theme():
     st.markdown("""
         <style>
         .stApp {
-            background-color: #db90be;
+            background-color: #fce4ec;
         }
 
         /* Ubah warna sidebar */
