@@ -15,30 +15,6 @@ def apply_custom_theme():
             background-color: #fce4ec;
         }    
 
-        /* Untuk input angka dan teks */
-        input[type="number"], input[type="text"] {
-            background-color: #fff0f5 !important;
-            color: #3f0a29 !important;
-            border: 1px solid #db90be !important;
-            border-radius: 8px !important;
-            padding: 6px 10px;
-        }
-    
-        /* Untuk input float / decimal */
-        input[type="number"]::-webkit-inner-spin-button,
-        input[type="number"]::-webkit-outer-spin-button {
-            -webkit-appearance: none;
-            margin: 0;
-        }
-    
-        /* Untuk select box dropdown */
-        div[data-baseweb="select"] {
-            background-color: #fff0f5 !important;
-            color: #3f0a29 !important;
-            border: 1px solid #db90be !important;
-            border-radius: 8px !important;
-        }
-    
         /* Label */
         label {
             color: #3f0a29 !important;
