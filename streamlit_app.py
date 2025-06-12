@@ -39,18 +39,17 @@ def apply_custom_theme():
             transition: 0.3s ease-in-out;
         }
 
-        .stRadio > div {
-            background-color: #cb7885;
-            padding: 10px;
-            border-radius: 10px;
-        }
-        .stRadio > label {
-            font-weight: bold;
+        .stButton > button {
+            background-color: #893941;
             color: white;
-            text-align: center;
-            width: 100%;
-            display: block;
+            font-weight: bold;
+            border-radius: 10px;
+            padding: 10px 20px;
+            margin: 5px;
+            font-size: 16px;
         }
+}
+
 
         footer {visibility: hidden;}
         </style>
@@ -68,12 +67,28 @@ if "riwayat_input" not in st.session_state:
     st.session_state.riwayat_input = []
 
 # ========================== MENU PILIHAN ==========================
-with st.sidebar:
-    st.markdown("## 📌 Menu Utama")
-    menu = st.radio("Silakan pilih:", ["🔍 Prediksi Obesitas", "📂 Riwayat Prediksi", "📊 Statistik & Tren"])
+st.markdown("<h1 style='text-align: center;'>📌 Menu Utama</h1>", unsafe_allow_html=True)
+col1, col2, col3 = st.columns(3)
+
+with col1:
+    if st.button("🔍 Prediksi Obesitas"):
+        st.session_state.menu = "prediksi"
+
+with col2:
+    if st.button("📂 Riwayat"):
+        st.session_state.menu = "riwayat"
+
+with col3:
+    if st.button("📊 Statistik & Tren"):
+        st.session_state.menu = "statistik"
+
+# Default menu saat pertama kali dibuka
+if "menu" not in st.session_state:
+    st.session_state.menu = "prediksi"
+
 
 # ========================== MENU 1: PREDIKSI ==========================
-if menu == "🔍 Prediksi Obesitas":
+if st.session_state.menu == "prediksi":
     st.title("💡 Prediksi Tingkat Obesitas Anda")
     with st.form("form_prediksi"):
         col1, col2 = st.columns(2)
@@ -136,7 +151,7 @@ if menu == "🔍 Prediksi Obesitas":
         st.info(rekomendasi.get(kategori, "Tidak ada rekomendasi."))
 
 # ========================== MENU 2: RIWAYAT ==========================
-elif menu == "📂 Riwayat Prediksi":
+elif st.session_state.menu == "riwayat":
     st.title("📂 Riwayat Prediksi Obesitas")
 
     if st.session_state.riwayat_input:
@@ -150,7 +165,7 @@ elif menu == "📂 Riwayat Prediksi":
         st.info("Belum ada riwayat prediksi yang disimpan.")
 
 # ========================== MENU 3: STATISTIK ==========================
-elif menu == "📊 Statistik & Tren":
+elif st.session_state.menu == "statistik":
     st.title("📊 Statistik & Tren dari Riwayat Prediksi")
 
     if st.session_state.riwayat_input:
