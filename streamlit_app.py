@@ -12,44 +12,44 @@ def apply_custom_theme():
     st.markdown("""
         <style>
         .stApp {
-            background-color: #d4d994; /* Latar belakang umum */
+            background-color: #f5bcc1;
         }
 
         h1 {
-            color: #893941;
+            color: #620e2c;
             font-family: 'Segoe UI', sans-serif;
             text-align: center;
         }
 
         h2, h3 {
-            color: #5e6623;
+            color: #94426a;
             font-family: 'Segoe UI', sans-serif;
         }
 
         .stButton > button {
-            background-color: #893941;
-            color: white;
-            font-weight: bold;
-            border-radius: 8px;
-            border: none;
-        }
-
-        .stButton > button:hover {
-            background-color: #5e6623;
-            transition: 0.3s ease-in-out;
-        }
-
-        .stButton > button {
-            background-color: #893941;
+            background-color: #620e2c;
             color: white;
             font-weight: bold;
             border-radius: 10px;
             padding: 10px 20px;
             margin: 5px;
             font-size: 16px;
+            width: 100%;
+            border: none;
         }
-}
 
+        .stButton > button:hover {
+            background-color: #3f0a29;
+            transition: 0.3s ease-in-out;
+        }
+
+        section[data-testid="stSidebar"] .stButton > button {
+            background-color: #94426a;
+        }
+
+        section[data-testid="stSidebar"] .stButton > button:hover {
+            background-color: #3f0a29;
+        }
 
         footer {visibility: hidden;}
         </style>
@@ -66,26 +66,18 @@ label_encoder = joblib.load("label_encoder.pkl")
 if "riwayat_input" not in st.session_state:
     st.session_state.riwayat_input = []
 
-# ========================== MENU PILIHAN ==========================
-st.markdown("<h1 style='text-align: center;'>📌 Menu Utama</h1>", unsafe_allow_html=True)
-col1, col2, col3 = st.columns(3)
-
-with col1:
-    if st.button("🔍 Prediksi Obesitas"):
-        st.session_state.menu = "prediksi"
-
-with col2:
-    if st.button("📂 Riwayat"):
-        st.session_state.menu = "riwayat"
-
-with col3:
-    if st.button("📊 Statistik & Tren"):
-        st.session_state.menu = "statistik"
-
-# Default menu saat pertama kali dibuka
 if "menu" not in st.session_state:
     st.session_state.menu = "prediksi"
 
+# ========================== MENU PILIHAN ==========================
+with st.sidebar:
+    st.markdown("<h2 style='color:#620e2c;'>📌 Menu</h2>", unsafe_allow_html=True)
+    if st.button("🔍 Prediksi Obesitas"):
+        st.session_state.menu = "prediksi"
+    if st.button("📂 Riwayat Prediksi"):
+        st.session_state.menu = "riwayat"
+    if st.button("📊 Statistik & Tren"):
+        st.session_state.menu = "statistik"
 
 # ========================== MENU 1: PREDIKSI ==========================
 if st.session_state.menu == "prediksi":
@@ -173,7 +165,7 @@ elif st.session_state.menu == "statistik":
 
         st.subheader("Distribusi Kategori Obesitas")
         fig1, ax1 = plt.subplots()
-        df["Kategori"].value_counts().plot(kind='bar', color='#A74AC7', ax=ax1)
+        df["Kategori"].value_counts().plot(kind='bar', color='#db90be', ax=ax1)
         ax1.set_ylabel("Jumlah")
         st.pyplot(fig1)
 
@@ -182,14 +174,16 @@ elif st.session_state.menu == "statistik":
 
         st.subheader("Distribusi Berat Badan per Kategori")
         fig2, ax2 = plt.subplots()
-        sns.boxplot(data=df, x="Kategori", y="Weight", ax=ax2, palette="magma")
+        sns.boxplot(data=df, x="Kategori", y="Weight", ax=ax2, palette="pastel")
         ax2.set_xticklabels(ax2.get_xticklabels(), rotation=30, ha="right")
         st.pyplot(fig2)
 
     else:
         st.warning("Belum ada data prediksi. Silakan lakukan prediksi terlebih dahulu.")
+
+# ========================== FOOTER ==========================
 st.markdown("---")
 st.markdown(
-    "<p style='text-align: center; color: #5e6623;'>by <b>nadatiyasa</b> | NIM <b>A11.2022.14217</b></p>",
+    "<p style='text-align: center; color: #3f0a29;'>by <b>nadatiyasa</b> | NIM <b>A11.2022.14217</b></p>",
     unsafe_allow_html=True
 )
