@@ -38,9 +38,6 @@ def apply_custom_theme():
             background-color: #7B337E;
             transition: 0.3s ease-in-out;
         }
-        .stSlider > div > div {
-            background: linear-gradient(90deg, #6667AB, #7B337E) !important;
-        }
         .stAlert {
             background-color: #f9ebf0;
             border-left: 6px solid #7B337E;
@@ -67,14 +64,14 @@ with st.form("form_prediksi"):
         gender = st.selectbox("Jenis Kelamin", ["Male", "Female"])
         weight = st.number_input("Berat Badan (kg)", 20, 200, 70)
         favc = st.selectbox("Sering Makan Tinggi Kalori?", ["yes", "no"])
-        fcvc = st.slider("Konsumsi Sayur (1–3)", 1.0, 3.0, 2.0)
+        fcvc = st.number_input("Konsumsi Sayur (1–3)", min_value=1.0, max_value=3.0, value=2.0, step=0.1)
         scc = st.selectbox("Pantau Kalori Harian?", ["yes", "no"])
 
     with col2:
         calc = st.selectbox("Konsumsi Alkohol", ["no", "Sometimes", "Frequently", "Always"])
-        ch2o = st.slider("Konsumsi Air (liter/hari)", 0.0, 3.0, 2.0)
+        ch2o = st.number_input("Konsumsi Air (liter/hari)", min_value=0.0, max_value=5.0, value=2.0, step=0.1)
         fhwo = st.selectbox("Riwayat Keluarga Overweight?", ["yes", "no"])
-        faf = st.slider("Aktivitas Fisik Mingguan (jam)", 0.0, 3.0, 1.0)
+        faf = st.number_input("Aktivitas Fisik Mingguan (jam)", min_value=0.0, max_value=20.0, value=1.0, step=0.5)
         caec = st.selectbox("Ngemil?", ["no", "Sometimes", "Frequently", "Always"])
 
     submitted = st.form_submit_button("🔍 Prediksi")
