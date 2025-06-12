@@ -11,28 +11,14 @@ st.set_page_config(page_title="Cek Tingkat Obesitas Anda", layout="centered")
 def apply_custom_theme():
     st.markdown("""
         <style>
-        .stApp {
-            background-color: #F5D5E0;
-        }
-        h1 {
-            color: #210635;
-            font-family: 'Segoe UI', sans-serif;
-            text-align: center;
-        }
-        h2, h3 {
-            color: #7B337E;
-            font-family: 'Segoe UI', sans-serif;
-        }
-        label, p, div, span {
-            color: #420D4B !important;
-            font-family: 'Segoe UI', sans-serif;
-        }
+        .stApp { background-color: #F5D5E0; }
+        h1 { color: #210635; font-family: 'Segoe UI', sans-serif; text-align: center; }
+        h2, h3 { color: #7B337E; font-family: 'Segoe UI', sans-serif; }
+        label, p, div, span { color: #420D4B !important; font-family: 'Segoe UI', sans-serif; }
         .stButton > button {
             background-color: #6667AB;
-            color: white;
-            font-weight: bold;
-            border-radius: 8px;
-            border: none;
+            color: white; font-weight: bold;
+            border-radius: 8px; border: none;
         }
         .stButton > button:hover {
             background-color: #7B337E;
@@ -58,7 +44,7 @@ st.markdown("Masukkan data berikut untuk memprediksi tingkat obesitas berdasarka
 # ========================== FORM INPUT ==========================
 with st.form("form_prediksi"):
     col1, col2 = st.columns(2)
-    
+
     with col1:
         age = st.number_input("Usia", 10, 100, 25)
         gender = st.selectbox("Jenis Kelamin", ["Laki-laki", "Perempuan"])
@@ -82,7 +68,7 @@ if submitted:
     input_dict = {
         "Age": age,
         "Gender": 1 if gender == "Laki-laki" else 0,
-        "Height": height,
+        "Height": height / 100,  # konversi cm ke meter
         "Weight": weight,
         "CALC": {"Tidak": 0, "Kadang-kadang": 1, "Sering": 2, "Selalu": 3}[calc],
         "FAVC": 1 if favc == "Ya" else 0,
@@ -94,17 +80,26 @@ if submitted:
         "CAEC": {"Tidak": 0, "Kadang-kadang": 1, "Sering": 2, "Selalu": 3}[caec]
     }
 
-
     user_input = pd.DataFrame([input_dict])
+
+    st.write("🧪 Input mentah ke model:")
+    st.dataframe(user_input)
+
     user_input = user_input[[  # urutkan sesuai model
         'Age', 'Gender', 'Height', 'Weight', 'CALC', 'FAVC', 'FCVC', 'SCC',
         'CH2O', 'family_history_with_overweight', 'FAF', 'CAEC'
     ]]
 
     X_scaled = scaler.transform(user_input)
+
+    st.write("🧪 Input ke model (setelah scaling):")
+    st.write(pd.DataFrame(X_scaled, columns=user_input.columns))
+
     prediction = model.predict(X_scaled)
     result = label_encoder.inverse_transform(prediction)[0]
     kategori = result.replace("_", " ")
+
+    st.write("🔢 Label numerik hasil prediksi:", prediction)
 
     # ========================== REKOMENDASI ==========================
     rekomendasi = {
@@ -140,9 +135,7 @@ count_pred = Counter(pred_clean)
 df_vis = pd.DataFrame.from_dict(count_pred, orient='index', columns=["Jumlah"])
 df_vis = df_vis.sort_values(by="Jumlah", ascending=False)
 
-# Buat 2 kolom
-col_vis, col_desc = st.columns([2, 1])  # Visualisasi 2x lebih lebar dari deskripsi
-
+col_vis, col_desc = st.columns([2, 1])
 with col_vis:
     st.bar_chart(df_vis)
 
@@ -150,10 +143,9 @@ with col_desc:
     st.markdown("### ℹ️ Keterangan")
     st.markdown("""
     Grafik di samping menunjukkan **distribusi hasil prediksi** tingkat obesitas berdasarkan data simulasi.
-    
+
     - Kategori **'Normal Weight'** mendominasi data simulasi.
     - Kategori lain seperti **'Overweight Level I'** juga muncul namun lebih sedikit.
-    
+
     Visualisasi ini membantu memahami penyebaran kondisi gizi dari sekelompok data, dan dapat dikembangkan untuk data real pengguna secara agregat.
     """)
-
