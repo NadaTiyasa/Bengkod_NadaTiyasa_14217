@@ -137,9 +137,9 @@ if st.session_state.menu == "prediksi":
         st.session_state.riwayat_input.append(input_dict)
 
         st.markdown(f"""
-            <div style="background-color:#620e2c; color:white; padding:20px; border-radius:15px; text-align:center; margin-top:20px;">
-                <h3>Tingkat obesitas Anda diprediksi sebagai:</h3>
-                <h2 style="margin-top:10px; color:#ffe4f1;">{kategori}</h2>
+            <div style="background-color:#fce4ec; color:#620e2c; padding:20px; border-radius:15px; text-align:center; margin-top:20px; border: 2px solid #db90be;">
+                <h3 style="margin-bottom:10px;">Tingkat obesitas Anda diprediksi sebagai:</h3>
+                <h2 style="margin-top:0; color:#94426a;">{kategori}</h2>
             </div>
         """, unsafe_allow_html=True)
     
@@ -154,7 +154,7 @@ if st.session_state.menu == "prediksi":
         }
         
         st.markdown(f"""
-            <div style="background-color:#ffe4f1; color:#3f0a29; padding:15px; border-left: 5px solid #94426a; border-radius:10px; margin-top:15px;">
+            <div style="background-color:#fff0f5; color:#3f0a29; padding:15px; border-left: 5px solid #db90be; border-radius:10px; margin-top:15px;">
                 {rekomendasi.get(kategori, "Tidak ada rekomendasi.")}
             </div>
         """, unsafe_allow_html=True)
