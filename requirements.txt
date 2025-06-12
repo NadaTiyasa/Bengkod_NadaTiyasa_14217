@@ -1,7 +1,7 @@
-pip install scikit-learn xgboost imbalanced-learn
 streamlit
-scikit-learn
 pandas
 numpy
-joblib
+scikit-learn
+xgboost
+imbalanced-learn
 matplotlib
