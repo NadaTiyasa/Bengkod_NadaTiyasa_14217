@@ -12,7 +12,12 @@ def apply_custom_theme():
     st.markdown("""
         <style>
         .stApp {
-            background-color: #f5bcc1;
+            background-color: #db90be;
+        }
+
+        /* Ubah warna sidebar */
+        section[data-testid="stSidebar"] {
+            background-color: #94426a !important;
         }
 
         h1 {
@@ -44,16 +49,19 @@ def apply_custom_theme():
         }
 
         section[data-testid="stSidebar"] .stButton > button {
-            background-color: #94426a;
+            background-color: #f5bcc1;
+            color: #3f0a29;
         }
 
         section[data-testid="stSidebar"] .stButton > button:hover {
             background-color: #3f0a29;
+            color: white;
         }
 
         footer {visibility: hidden;}
         </style>
     """, unsafe_allow_html=True)
+
 
 apply_custom_theme()
 
