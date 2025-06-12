@@ -3,16 +3,59 @@ import pandas as pd
 import numpy as np
 import joblib
 
-# ================= Load Model & Assets =================
+# ========================== CONFIG & THEME ==========================
+st.set_page_config(page_title="Obesity Level Prediction", layout="centered")
+
+def apply_blue_theme():
+    st.markdown("""
+        <style>
+        .stApp {
+            background-color: #e8f0fe;
+        }
+        h1 {
+            color: #2a4d8f;
+            font-family: 'Segoe UI', sans-serif;
+            text-align: center;
+        }
+        h2, h3 {
+            color: #3366cc;
+            font-family: 'Segoe UI', sans-serif;
+        }
+        label, p, div, span {
+            color: #222 !important;
+            font-family: 'Segoe UI', sans-serif;
+        }
+        .stButton > button {
+            background-color: #1a73e8;
+            color: white;
+            font-weight: bold;
+            border-radius: 8px;
+        }
+        .stButton > button:hover {
+            background-color: #0f5edc;
+            transition: 0.3s ease-in-out;
+        }
+        .stSlider > div > div {
+            background-color: #1a73e8 !important;
+        }
+        .stAlert {
+            background-color: #dbeafe;
+            border-left: 6px solid #2563eb;
+        }
+        </style>
+    """, unsafe_allow_html=True)
+
+apply_blue_theme()
+
+# ========================== LOAD MODEL ==========================
 model = joblib.load("model.pkl")
 scaler = joblib.load("scaler.pkl")
 label_encoder = joblib.load("label_encoder.pkl")
 
-st.set_page_config(page_title="Obesity Level Prediction", layout="centered")
 st.title("💡 Prediksi Tingkat Obesitas")
 st.markdown("Masukkan data berikut untuk memprediksi tingkat obesitas Anda.")
 
-# ================= Input Form Layout =================
+# ========================== FORM INPUT ==========================
 with st.form("form_prediksi"):
     col1, col2 = st.columns(2)
 
@@ -33,7 +76,7 @@ with st.form("form_prediksi"):
 
     submitted = st.form_submit_button("🔍 Prediksi")
 
-# ================= Preprocessing & Prediction =================
+# ========================== PREDIKSI & OUTPUT ==========================
 if submitted:
     input_dict = {
         "Age": age,
@@ -50,7 +93,7 @@ if submitted:
     }
 
     user_input = pd.DataFrame([input_dict])
-    user_input = user_input[[  # pastikan urutan sesuai training
+    user_input = user_input[[  # urutkan sesuai model
         'Age', 'Gender', 'Weight', 'CALC', 'FAVC', 'FCVC', 'SCC',
         'CH2O', 'family_history_with_overweight', 'FAF', 'CAEC'
     ]]
@@ -58,12 +101,25 @@ if submitted:
     X_scaled = scaler.transform(user_input)
     prediction = model.predict(X_scaled)
     result = label_encoder.inverse_transform(prediction)[0]
+    kategori = result.replace("_", " ")
 
-    # ================= Output =================
+    # ========================== REKOMENDASI ==========================
+    rekomendasi = {
+        "Insufficient Weight": "🍽️ Perbanyak konsumsi kalori sehat, tambahkan protein dan lemak baik. 💪 Lakukan olahraga kekuatan untuk meningkatkan massa otot.",
+        "Normal Weight": "✅ Pertahankan gaya hidup saat ini dengan pola makan seimbang dan aktivitas fisik rutin. Jangan lupakan hidrasi dan tidur cukup.",
+        "Overweight Level I": "⚠️ Kurangi gula, makanan olahan, dan perbanyak aktivitas fisik seperti jalan kaki cepat atau bersepeda.",
+        "Overweight Level II": "⚠️ Mulai atur pola makan dan tingkatkan frekuensi olahraga. Konsultasi gizi disarankan.",
+        "Obesity Type I": "🚨 Terapkan diet rendah kalori, rutin olahraga, dan pertimbangkan konsultasi dengan ahli gizi atau dokter.",
+        "Obesity Type II": "🚨 Perlu bimbingan profesional. Kurangi makanan tinggi kalori, perbanyak sayuran, dan lakukan aktivitas fisik ringan tapi konsisten.",
+        "Obesity Type III": "🛑 Obesitas parah. Butuh intervensi medis. Ikuti program penurunan berat badan secara profesional dan terstruktur."
+    }
+
     st.markdown("---")
     st.subheader("📊 Hasil Prediksi:")
-    st.success(f"Tingkat obesitas Anda diprediksi sebagai: **{result.replace('_', ' ')}**")
+    st.success(f"Tingkat obesitas Anda diprediksi sebagai: **{kategori}**")
 
-    # Optional: tampilkan dataframe input
-    with st.expander("Lihat data yang dimasukkan"):
+    st.markdown("### 💡 Rekomendasi Gaya Hidup")
+    st.info(rekomendasi.get(kategori, "Tidak ada rekomendasi untuk kategori ini."))
+
+    with st.expander("🔍 Lihat data yang dimasukkan"):
         st.dataframe(user_input)
