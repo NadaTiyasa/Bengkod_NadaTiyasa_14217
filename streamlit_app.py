@@ -97,7 +97,7 @@ if submitted:
 
     user_input = pd.DataFrame([input_dict])
     user_input = user_input[[  # urutkan sesuai model
-        'Age', 'Gender', 'Weight', 'CALC', 'FAVC', 'FCVC', 'SCC',
+        'Age', 'Gender', 'Height', 'Weight', 'CALC', 'FAVC', 'FCVC', 'SCC',
         'CH2O', 'family_history_with_overweight', 'FAF', 'CAEC'
     ]]
 
