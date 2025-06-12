@@ -124,16 +124,33 @@ if submitted:
     with st.expander("🔍 Lihat data yang dimasukkan"):
         st.dataframe(user_input)
 
-    # ========================== VISUALISASI SIMULASI ==========================
-    # Simulasi hasil prediksi dari beberapa data (bisa diganti real prediction list)
-    hasil_prediksi = [
-        "Normal_Weight", "Normal_Weight", "Normal_Weight",
-        "Overweight_Level_I", "Normal_Weight"
-    ]
-    pred_clean = [x.replace("_", " ") for x in hasil_prediksi]
-    count_pred = Counter(pred_clean)
-    df_vis = pd.DataFrame.from_dict(count_pred, orient='index', columns=["Jumlah"])
-    df_vis = df_vis.sort_values(by="Jumlah", ascending=False)
+# ========================== VISUALISASI SIMULASI ==========================
+st.markdown("## 📊 Distribusi Kategori Obesitas (Contoh Data)")
 
-    st.markdown("### 📊 Distribusi Kategori Obesitas (Contoh Data)")
+# Simulasi hasil prediksi dari beberapa data
+hasil_prediksi = [
+    "Normal_Weight", "Normal_Weight", "Normal_Weight",
+    "Overweight_Level_I", "Normal_Weight"
+]
+pred_clean = [x.replace("_", " ") for x in hasil_prediksi]
+count_pred = Counter(pred_clean)
+df_vis = pd.DataFrame.from_dict(count_pred, orient='index', columns=["Jumlah"])
+df_vis = df_vis.sort_values(by="Jumlah", ascending=False)
+
+# Buat 2 kolom
+col_vis, col_desc = st.columns([2, 1])  # Visualisasi 2x lebih lebar dari deskripsi
+
+with col_vis:
     st.bar_chart(df_vis)
+
+with col_desc:
+    st.markdown("### ℹ️ Keterangan")
+    st.markdown("""
+    Grafik di samping menunjukkan **distribusi hasil prediksi** tingkat obesitas berdasarkan data simulasi.
+    
+    - Kategori **'Normal Weight'** mendominasi data simulasi.
+    - Kategori lain seperti **'Overweight Level I'** juga muncul namun lebih sedikit.
+    
+    Visualisasi ini membantu memahami penyebaran kondisi gizi dari sekelompok data, dan dapat dikembangkan untuk data real pengguna secara agregat.
+    """)
+
