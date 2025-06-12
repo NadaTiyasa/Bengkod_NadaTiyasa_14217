@@ -23,7 +23,20 @@ def apply_custom_theme():
             background-color: #6A0572;
             transition: 0.3s ease-in-out;
         }
+        footer {visibility: hidden;}
+        .footer {
+            position: fixed;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            background-color: #FAF3F3;
+            color: #888;
+            text-align: center;
+            padding: 10px;
+            font-size: 14px;
+        }
         </style>
+        <div class="footer">by nadatiyasa nim A11.2022.14217</div>
     """, unsafe_allow_html=True)
 
 apply_custom_theme()
@@ -38,8 +51,9 @@ if "riwayat_input" not in st.session_state:
     st.session_state.riwayat_input = []
 
 # ========================== MENU PILIHAN ==========================
-st.markdown("## 📌 Menu Utama")
-menu = st.radio("Silakan pilih:", ["🔍 Prediksi Obesitas", "📂 Riwayat Prediksi", "📊 Statistik & Tren"])
+with st.sidebar:
+    st.markdown("## 📌 Menu Utama")
+    menu = st.radio("Silakan pilih:", ["🔍 Prediksi Obesitas", "📂 Riwayat Prediksi", "📊 Statistik & Tren"])
 
 # ========================== MENU 1: PREDIKSI ==========================
 if menu == "🔍 Prediksi Obesitas":
@@ -87,11 +101,9 @@ if menu == "🔍 Prediksi Obesitas":
         result = label_encoder.inverse_transform(prediction)[0]
         kategori = result.replace("_", " ")
 
-        # Simpan riwayat
         input_dict["Kategori"] = kategori
         st.session_state.riwayat_input.append(input_dict)
 
-        # Output
         st.success(f"Tingkat obesitas Anda diprediksi sebagai: **{kategori}**")
 
         rekomendasi = {
@@ -127,18 +139,15 @@ elif menu == "📊 Statistik & Tren":
     if st.session_state.riwayat_input:
         df = pd.DataFrame(st.session_state.riwayat_input)
 
-        # Hitung distribusi kategori
         st.subheader("Distribusi Kategori Obesitas")
         fig1, ax1 = plt.subplots()
         df["Kategori"].value_counts().plot(kind='bar', color='#A74AC7', ax=ax1)
         ax1.set_ylabel("Jumlah")
         st.pyplot(fig1)
 
-        # Rata-rata variabel numerik
         st.subheader("Rata-rata Karakteristik Pengguna")
         st.dataframe(df[['Age', 'Height', 'Weight', 'FCVC', 'CH2O', 'FAF']].mean().round(2).rename("Rata-rata"))
 
-        # Boxplot berat badan per kategori
         st.subheader("Distribusi Berat Badan per Kategori")
         fig2, ax2 = plt.subplots()
         sns.boxplot(data=df, x="Kategori", y="Weight", ax=ax2, palette="magma")
