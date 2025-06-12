@@ -9,91 +9,75 @@ import seaborn as sns
 st.set_page_config(page_title="Obesity Predictor", layout="centered")
 
 def apply_custom_theme():
- st.markdown("""
-    <style>
-    /* ============================ INPUT STYLING ============================ */
-    div[data-testid="stNumberInput"] input {
-        background-color: white !important;
-        color: #3f0a29 !important;
-        border-radius: 8px;
-        border: 1px solid #db90be !important;
-        padding: 10px;
-        height: 48px;
-    }
+    st.markdown("""
+        <style>
+        .stApp {
+            background-color: #fce4ec;
+        }    
 
-    div[data-baseweb="select"] {
-        background-color: white !important;
-        border-radius: 8px !important;
-        border: 1px solid #db90be !important;
-        min-height: 48px;
-    }
+        /* Label */
+        label {
+            color: #3f0a29 !important;
+            font-weight: 600;
+        }
+    
+        /* Scrollbar (opsional) */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #94426a;
+            border-radius: 4px;
+        }
+        section[data-testid="stSidebar"] {
+            background-color: #94426a !important;
+        }
 
-    div[data-baseweb="select"] * {
-        color: #3f0a29 !important;
-        font-weight: 500;
-    }
+        h1 {
+            color: #620e2c;
+            font-family: 'Segoe UI', sans-serif;
+            text-align: center;
+        }
 
-    /* Tombol +/- */
-    button[kind="secondary"] {
-        background-color: #f8d4dd !important;
-        color: #3f0a29 !important;
-        border: none !important;
-        border-radius: 6px;
-    }
+        h2, h3 {
+            color: #94426a;
+            font-family: 'Segoe UI', sans-serif;
+        }
 
-    button[kind="secondary"]:hover {
-        background-color: #db90be !important;
-    }
+        .stButton > button {
+            background-color: #620e2c;
+            color: white;
+            font-weight: bold;
+            border-radius: 10px;
+            padding: 10px 20px;
+            margin: 5px;
+            font-size: 16px;
+            width: 100%;
+            border: none;
+        }
 
-    /* Perataan tinggi antar elemen */
-    div[data-testid="stNumberInput"], div[data-baseweb="select"] {
-        margin-bottom: 12px;
-    }
+        .stButton > button:hover {
+            background-color: #3f0a29;
+            transition: 0.3s ease-in-out;
+        }
 
-    /* ============================ BUTTON STYLING ============================ */
-    .stButton > button {
-        height: 48px;
-        font-size: 16px;
-        background-color: #620e2c;
-        color: white;
-        font-weight: bold;
-        border-radius: 10px;
-        border: none;
-    }
+        section[data-testid="stSidebar"] .stButton > button {
+            background-color: #f5bcc1;
+            color: #3f0a29;
+        }
 
-    .stButton > button:hover {
-        background-color: #3f0a29;
-    }
+        section[data-testid="stSidebar"] .stButton > button:hover {
+            background-color: #3f0a29;
+            color: white;
+        }
 
-    /* ============================ FORM BACKGROUND ============================ */
-    .stApp {
-        background-color: #fce4ec;
-    }
+        footer {visibility: hidden;}
+        </style>
+    """, unsafe_allow_html=True)
 
-    /* ============================ JUDUL DAN LABEL ============================ */
-    h1, h2, h3 {
-        color: #620e2c;
-        font-family: 'Segoe UI', sans-serif;
-    }
-
-    label {
-        color: #3f0a29 !important;
-        font-weight: 600;
-    }
-
-    /* Scrollbar */
-    ::-webkit-scrollbar {
-        width: 8px;
-    }
-
-    ::-webkit-scrollbar-thumb {
-        background: #94426a;
-        border-radius: 4px;
-    }
-    </style>
-""", unsafe_allow_html=True)
 
 apply_custom_theme()
+
 
 # ========================== LOAD MODEL ==========================
 model = joblib.load("model.pkl")
