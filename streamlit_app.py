@@ -80,6 +80,23 @@ if "menu" not in st.session_state:
 # ========================== MENU PILIHAN ==========================
 with st.sidebar:
     st.markdown("<h2 style='color:#620e2c;'>📌 Menu</h2>", unsafe_allow_html=True)
+
+    def sidebar_button(label, key):
+        style = """
+            background-color: #3f0a29; color: white;
+            font-weight: bold; border-radius: 10px; padding: 8px; width: 100%;
+            margin-bottom: 8px; border: none;
+        """ if st.session_state.menu == key else """
+            background-color: #f5bcc1; color: #3f0a29;
+            border-radius: 10px; padding: 8px; width: 100%;
+            margin-bottom: 8px; border: none;
+        """
+        return st.markdown(f"""
+            <form action="" method="post">
+                <button name="menu" type="submit" style="{style}">{label}</button>
+            </form>
+        """, unsafe_allow_html=True)
+
     if st.button("🔍 Prediksi Obesitas"):
         st.session_state.menu = "prediksi"
     if st.button("📂 Riwayat Prediksi"):
@@ -137,9 +154,9 @@ if st.session_state.menu == "prediksi":
         st.session_state.riwayat_input.append(input_dict)
 
         st.markdown(f"""
-            <div style="background-color:#620e2c; color:white; padding:20px; border-radius:15px; text-align:center; margin-top:20px;">
-                <h3>Tingkat obesitas Anda diprediksi sebagai:</h3>
-                <h2 style="margin-top:10px; color:#ffe4f1;">{kategori}</h2>
+            <div style="background-color:#620e2c; color:white; padding:12px 16px; border-radius:10px; text-align:center; margin-top:15px;">
+                <p style="margin:0; font-size:16px;">Tingkat obesitas Anda diprediksi sebagai:</p>
+                <p style="margin:5px 0 0; font-size:20px; font-weight:bold; color:#ffe4f1;">{kategori}</p>
             </div>
         """, unsafe_allow_html=True)
     
