@@ -136,8 +136,13 @@ if st.session_state.menu == "prediksi":
         input_dict["Kategori"] = kategori
         st.session_state.riwayat_input.append(input_dict)
 
-        st.success(f"Tingkat obesitas Anda diprediksi sebagai: **{kategori}**")
-
+        st.markdown(f"""
+            <div style="background-color:#620e2c; color:white; padding:20px; border-radius:15px; text-align:center; margin-top:20px;">
+                <h3>Tingkat obesitas Anda diprediksi sebagai:</h3>
+                <h2 style="margin-top:10px; color:#ffe4f1;">{kategori}</h2>
+            </div>
+        """, unsafe_allow_html=True)
+    
         rekomendasi = {
             "Insufficient Weight": "🍽️ Perbanyak konsumsi kalori sehat...",
             "Normal Weight": "✅ Pertahankan pola hidup sehat...",
@@ -147,8 +152,12 @@ if st.session_state.menu == "prediksi":
             "Obesity Type II": "🚨 Intervensi profesional dibutuhkan...",
             "Obesity Type III": "🛑 Butuh penanganan medis intensif..."
         }
-
-        st.info(rekomendasi.get(kategori, "Tidak ada rekomendasi."))
+        
+        st.markdown(f"""
+            <div style="background-color:#ffe4f1; color:#3f0a29; padding:15px; border-left: 5px solid #94426a; border-radius:10px; margin-top:15px;">
+                {rekomendasi.get(kategori, "Tidak ada rekomendasi.")}
+            </div>
+        """, unsafe_allow_html=True)
 
 # ========================== MENU 2: RIWAYAT ==========================
 elif st.session_state.menu == "riwayat":
