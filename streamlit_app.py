@@ -14,6 +14,25 @@ def apply_custom_theme():
         .stApp {
             background-color: #fce4ec;
         }    
+/* Input number dan text */
+        div[data-testid="stNumberInput"] input {
+            background-color: #fff0f5 !important;
+            color: #3f0a29 !important;
+            border: 1px solid #db90be !important;
+            border-radius: 8px !important;
+        }
+
+        /* Selectbox dropdown */
+        div[data-baseweb="select"] {
+            background-color: #fff0f5 !important;
+            color: #3f0a29 !important;
+            border-radius: 8px !important;
+        }
+
+        /* Text di dalam selectbox */
+        div[data-baseweb="select"] * {
+            color: #3f0a29 !important;
+        }
 
         /* Label */
         label {
