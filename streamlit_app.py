@@ -11,32 +11,49 @@ st.set_page_config(page_title="Obesity Predictor", layout="centered")
 def apply_custom_theme():
     st.markdown("""
         <style>
-        .stApp { background-color: #FAF3F3; }
-        h1 { color: #2C0735; font-family: 'Segoe UI', sans-serif; text-align: center; }
-        h2, h3 { color: #6A0572; font-family: 'Segoe UI', sans-serif; }
-        .stButton > button {
-            background-color: #A74AC7;
-            color: white; font-weight: bold;
-            border-radius: 8px; border: none;
+        .stApp {
+            background-color: #d4d994; /* Latar belakang umum */
         }
+
+        h1 {
+            color: #893941;
+            font-family: 'Segoe UI', sans-serif;
+            text-align: center;
+        }
+
+        h2, h3 {
+            color: #5e6623;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        .stButton > button {
+            background-color: #893941;
+            color: white;
+            font-weight: bold;
+            border-radius: 8px;
+            border: none;
+        }
+
         .stButton > button:hover {
-            background-color: #6A0572;
+            background-color: #5e6623;
             transition: 0.3s ease-in-out;
         }
-        footer {visibility: hidden;}
-        .footer {
-            position: fixed;
-            left: 0;
-            bottom: 0;
-            width: 100%;
-            background-color: #FAF3F3;
-            color: #888;
-            text-align: center;
+
+        .stRadio > div {
+            background-color: #cb7885;
             padding: 10px;
-            font-size: 14px;
+            border-radius: 10px;
         }
+        .stRadio > label {
+            font-weight: bold;
+            color: white;
+            text-align: center;
+            width: 100%;
+            display: block;
+        }
+
+        footer {visibility: hidden;}
         </style>
-        <div class="footer">by nadatiyasa nim A11.2022.14217</div>
     """, unsafe_allow_html=True)
 
 apply_custom_theme()
@@ -156,3 +173,8 @@ elif menu == "📊 Statistik & Tren":
 
     else:
         st.warning("Belum ada data prediksi. Silakan lakukan prediksi terlebih dahulu.")
+st.markdown("---")
+st.markdown(
+    "<p style='text-align: center; color: #5e6623;'>by <b>nadatiyasa</b> | NIM <b>A11.2022.14217</b></p>",
+    unsafe_allow_html=True
+)
