@@ -14,8 +14,36 @@ def apply_custom_theme():
         .stApp {
             background-color: #fce4ec;
         }
-
-        /* Ubah warna sidebar */
+                
+        .stNumberInput > div > input, 
+        .stSelectbox > div > div, 
+        .stTextInput > div > input,
+        .stTextArea > div > textarea {
+            background-color: #fff0f5 !important; /* Pink sangat muda */
+            color: #3f0a29 !important;           /* Teks maroon gelap */
+            border: 1px solid #db90be !important;
+            border-radius: 8px;
+        }
+    
+        /* Label form */
+        label {
+            color: #3f0a29 !important;
+            font-weight: 600;
+        }
+    
+        /* Dropdown arrow (selectbox) */
+        .stSelectbox > div[data-baseweb="select"] > div {
+            background-color: #fff0f5 !important;
+        }
+    
+        /* Scrollbar styling if needed */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #94426a;
+            border-radius: 4px;
+        }
         section[data-testid="stSidebar"] {
             background-color: #94426a !important;
         }
