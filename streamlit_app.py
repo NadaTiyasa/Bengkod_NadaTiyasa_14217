@@ -82,8 +82,10 @@ if submitted:
 
     user_input = pd.DataFrame([input_dict])
 
-    st.write("🧪 Input mentah ke model:")
-    st.dataframe(user_input)
+    # Simpan riwayat input
+    if "riwayat_input" not in st.session_state:
+        st.session_state.riwayat_input = []
+    st.session_state.riwayat_input.append(user_input.copy())
 
     user_input = user_input[[  # urutkan sesuai model
         'Age', 'Gender', 'Height', 'Weight', 'CALC', 'FAVC', 'FCVC', 'SCC',
@@ -91,17 +93,15 @@ if submitted:
     ]]
 
     X_scaled = scaler.transform(user_input)
-
-    st.write("🧪 Input ke model (setelah scaling):")
-    st.write(pd.DataFrame(X_scaled, columns=user_input.columns))
-
     prediction = model.predict(X_scaled)
     result = label_encoder.inverse_transform(prediction)[0]
     kategori = result.replace("_", " ")
 
-    st.write("🔢 Label numerik hasil prediksi:", prediction)
+    # ========================== OUTPUT ==========================
+    st.markdown("---")
+    st.subheader("📊 Hasil Prediksi:")
+    st.success(f"Tingkat obesitas Anda diprediksi sebagai: **{kategori}**")
 
-    # ========================== REKOMENDASI ==========================
     rekomendasi = {
         "Insufficient Weight": "🍽️ Perbanyak konsumsi kalori sehat, tambahkan protein dan lemak baik. 💪 Lakukan olahraga kekuatan untuk meningkatkan massa otot.",
         "Normal Weight": "✅ Pertahankan gaya hidup saat ini dengan pola makan seimbang dan aktivitas fisik rutin. Jangan lupakan hidrasi dan tidur cukup.",
@@ -112,20 +112,35 @@ if submitted:
         "Obesity Type III": "🛑 Obesitas parah. Butuh intervensi medis. Ikuti program penurunan berat badan secara profesional dan terstruktur."
     }
 
-    st.markdown("---")
-    st.subheader("📊 Hasil Prediksi:")
-    st.success(f"Tingkat obesitas Anda diprediksi sebagai: **{kategori}**")
-
     st.markdown("### 💡 Rekomendasi Gaya Hidup")
     st.info(rekomendasi.get(kategori, "Tidak ada rekomendasi untuk kategori ini."))
 
-    with st.expander("🔍 Lihat data yang dimasukkan"):
-        st.dataframe(user_input)
+    st.write("🧪 Input mentah ke model:")
+    st.dataframe(user_input)
+
+    st.write("🧪 Input ke model (setelah scaling):")
+    st.dataframe(pd.DataFrame(X_scaled, columns=user_input.columns))
+
+# ========================== LIHAT RIWAYAT INPUT ==========================
+st.markdown("## 📂 Riwayat Input Prediksi")
+
+col1, col2 = st.columns([3, 1])
+
+with col1:
+    if "riwayat_input" in st.session_state and st.session_state.riwayat_input:
+        semua_input = pd.concat(st.session_state.riwayat_input, ignore_index=True)
+        st.dataframe(semua_input)
+    else:
+        st.info("Belum ada input yang dimasukkan.")
+
+with col2:
+    if st.button("🔄 Reset Riwayat"):
+        st.session_state.riwayat_input = []
+        st.success("Riwayat berhasil direset!")
 
 # ========================== VISUALISASI SIMULASI ==========================
 st.markdown("## 📊 Distribusi Kategori Obesitas (Contoh Data)")
 
-# Simulasi hasil prediksi dari beberapa data
 hasil_prediksi = [
     "Normal_Weight", "Normal_Weight", "Normal_Weight",
     "Overweight_Level_I", "Normal_Weight"
