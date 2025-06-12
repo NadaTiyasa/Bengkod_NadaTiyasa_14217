@@ -1,3 +1,4 @@
+pip install scikit-learn xgboost imbalanced-learn
 streamlit
 scikit-learn
 pandas
