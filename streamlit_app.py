@@ -58,21 +58,22 @@ st.markdown("Masukkan data berikut untuk memprediksi tingkat obesitas berdasarka
 # ========================== FORM INPUT ==========================
 with st.form("form_prediksi"):
     col1, col2 = st.columns(2)
-
+    
     with col1:
         age = st.number_input("Usia", 10, 100, 25)
-        gender = st.selectbox("Jenis Kelamin", ["Male", "Female"])
+        gender = st.selectbox("Jenis Kelamin", ["Laki-laki", "Perempuan"])
+        height = st.number_input("Tinggi Badan (cm)", 100, 250, 170)
         weight = st.number_input("Berat Badan (kg)", 20, 200, 70)
-        favc = st.selectbox("Sering Makan Tinggi Kalori?", ["yes", "no"])
+        favc = st.selectbox("Sering Makan Tinggi Kalori?", ["Ya", "Tidak"])
         fcvc = st.number_input("Konsumsi Sayur (1–3)", min_value=1.0, max_value=3.0, value=2.0, step=0.1)
-        scc = st.selectbox("Pantau Kalori Harian?", ["yes", "no"])
 
     with col2:
-        calc = st.selectbox("Konsumsi Alkohol", ["no", "Sometimes", "Frequently", "Always"])
+        scc = st.selectbox("Pantau Kalori Harian?", ["Ya", "Tidak"])
+        calc = st.selectbox("Konsumsi Alkohol", ["Tidak", "Kadang-kadang", "Sering", "Selalu"])
         ch2o = st.number_input("Konsumsi Air (liter/hari)", min_value=0.0, max_value=5.0, value=2.0, step=0.1)
-        fhwo = st.selectbox("Riwayat Keluarga Overweight?", ["yes", "no"])
+        fhwo = st.selectbox("Riwayat Keluarga Overweight?", ["Ya", "Tidak"])
         faf = st.number_input("Aktivitas Fisik Mingguan (jam)", min_value=0.0, max_value=20.0, value=1.0, step=0.5)
-        caec = st.selectbox("Ngemil?", ["no", "Sometimes", "Frequently", "Always"])
+        caec = st.selectbox("Ngemil?", ["Tidak", "Kadang-kadang", "Sering", "Selalu"])
 
     submitted = st.form_submit_button("🔍 Prediksi")
 
@@ -80,17 +81,19 @@ with st.form("form_prediksi"):
 if submitted:
     input_dict = {
         "Age": age,
-        "Gender": 1 if gender == "Male" else 0,
+        "Gender": 1 if gender == "Laki-laki" else 0,
+        "Height": height,
         "Weight": weight,
-        "CALC": {"no": 0, "Sometimes": 1, "Frequently": 2, "Always": 3}[calc],
-        "FAVC": 1 if favc == "yes" else 0,
+        "CALC": {"Tidak": 0, "Kadang-kadang": 1, "Sering": 2, "Selalu": 3}[calc],
+        "FAVC": 1 if favc == "Ya" else 0,
         "FCVC": fcvc,
-        "SCC": 1 if scc == "yes" else 0,
+        "SCC": 1 if scc == "Ya" else 0,
         "CH2O": ch2o,
-        "family_history_with_overweight": 1 if fhwo == "yes" else 0,
+        "family_history_with_overweight": 1 if fhwo == "Ya" else 0,
         "FAF": faf,
-        "CAEC": {"no": 0, "Sometimes": 1, "Frequently": 2, "Always": 3}[caec]
+        "CAEC": {"Tidak": 0, "Kadang-kadang": 1, "Sering": 2, "Selalu": 3}[caec]
     }
+
 
     user_input = pd.DataFrame([input_dict])
     user_input = user_input[[  # urutkan sesuai model
