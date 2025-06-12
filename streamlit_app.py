@@ -2,58 +2,61 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 import joblib
+from collections import Counter
+import matplotlib.pyplot as plt
 
 # ========================== CONFIG & THEME ==========================
-st.set_page_config(page_title="Obesity Level Prediction", layout="centered")
+st.set_page_config(page_title="Cek Tingkat Obesitas Anda", layout="centered")
 
-def apply_blue_theme():
+def apply_custom_theme():
     st.markdown("""
         <style>
         .stApp {
-            background-color: #e8f0fe;
+            background-color: #F5D5E0;
         }
         h1 {
-            color: #2a4d8f;
+            color: #210635;
             font-family: 'Segoe UI', sans-serif;
             text-align: center;
         }
         h2, h3 {
-            color: #3366cc;
+            color: #7B337E;
             font-family: 'Segoe UI', sans-serif;
         }
         label, p, div, span {
-            color: #222 !important;
+            color: #420D4B !important;
             font-family: 'Segoe UI', sans-serif;
         }
         .stButton > button {
-            background-color: #1a73e8;
+            background-color: #6667AB;
             color: white;
             font-weight: bold;
             border-radius: 8px;
+            border: none;
         }
         .stButton > button:hover {
-            background-color: #0f5edc;
+            background-color: #7B337E;
             transition: 0.3s ease-in-out;
         }
         .stSlider > div > div {
-            background-color: #1a73e8 !important;
+            background: linear-gradient(90deg, #6667AB, #7B337E) !important;
         }
         .stAlert {
-            background-color: #dbeafe;
-            border-left: 6px solid #2563eb;
+            background-color: #f9ebf0;
+            border-left: 6px solid #7B337E;
         }
         </style>
     """, unsafe_allow_html=True)
 
-apply_blue_theme()
+apply_custom_theme()
 
 # ========================== LOAD MODEL ==========================
 model = joblib.load("model.pkl")
 scaler = joblib.load("scaler.pkl")
 label_encoder = joblib.load("label_encoder.pkl")
 
-st.title("💡 Prediksi Tingkat Obesitas")
-st.markdown("Masukkan data berikut untuk memprediksi tingkat obesitas Anda.")
+st.title("💡 Cek Tingkat Obesitas Anda")
+st.markdown("Masukkan data berikut untuk memprediksi tingkat obesitas berdasarkan gaya hidup Anda.")
 
 # ========================== FORM INPUT ==========================
 with st.form("form_prediksi"):
@@ -123,3 +126,17 @@ if submitted:
 
     with st.expander("🔍 Lihat data yang dimasukkan"):
         st.dataframe(user_input)
+
+    # ========================== VISUALISASI SIMULASI ==========================
+    # Simulasi hasil prediksi dari beberapa data (bisa diganti real prediction list)
+    hasil_prediksi = [
+        "Normal_Weight", "Normal_Weight", "Normal_Weight",
+        "Overweight_Level_I", "Normal_Weight"
+    ]
+    pred_clean = [x.replace("_", " ") for x in hasil_prediksi]
+    count_pred = Counter(pred_clean)
+    df_vis = pd.DataFrame.from_dict(count_pred, orient='index', columns=["Jumlah"])
+    df_vis = df_vis.sort_values(by="Jumlah", ascending=False)
+
+    st.markdown("### 📊 Distribusi Kategori Obesitas (Contoh Data)")
+    st.bar_chart(df_vis)
