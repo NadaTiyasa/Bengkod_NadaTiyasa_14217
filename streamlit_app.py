@@ -14,43 +14,7 @@ def apply_custom_theme():
         .stApp {
             background-color: #fce4ec;
         }    
-    div[data-testid="stNumberInput"] input {
-        background-color: #ffe4f1 !important;
-        color: #3f0a29 !important;
-        border-radius: 8px;
-        border: 1px solid #db90be !important;
-        padding: 10px;
-        height: 48px;
-    }
 
-    div[data-baseweb="select"] {
-        background-color: #ffe4f1 !important;
-        border-radius: 8px !important;
-        border: 1px solid #db90be !important;
-        min-height: 48px;
-    }
-
-    div[data-baseweb="select"] * {
-        color: #3f0a29 !important;
-        font-weight: 500;
-    }
-
-    /* Tombol +/- input number */
-    button[kind="secondary"] {
-        background-color: #f9b6c4 !important;
-        color: #3f0a29 !important;
-        border: none !important;
-        border-radius: 6px;
-    }
-
-    button[kind="secondary"]:hover {
-        background-color: #db90be !important;
-    }
-
-    /* Perataan tinggi input agar seragam */
-    div[data-testid="stNumberInput"], div[data-baseweb="select"] {
-        margin-bottom: 12px;
-    }
         /* Label */
         label {
             color: #3f0a29 !important;
