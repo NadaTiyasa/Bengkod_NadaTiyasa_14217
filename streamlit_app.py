@@ -13,30 +13,39 @@ def apply_custom_theme():
         <style>
         .stApp {
             background-color: #fce4ec;
-        }
-                
-        .stNumberInput > div > input, 
-        .stSelectbox > div > div, 
-        .stTextInput > div > input,
-        .stTextArea > div > textarea {
-            background-color: #fff0f5 !important; /* Pink sangat muda */
-            color: #3f0a29 !important;           /* Teks maroon gelap */
+        }    
+
+        /* Untuk input angka dan teks */
+        input[type="number"], input[type="text"] {
+            background-color: #fff0f5 !important;
+            color: #3f0a29 !important;
             border: 1px solid #db90be !important;
-            border-radius: 8px;
+            border-radius: 8px !important;
+            padding: 6px 10px;
         }
     
-        /* Label form */
+        /* Untuk input float / decimal */
+        input[type="number"]::-webkit-inner-spin-button,
+        input[type="number"]::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+    
+        /* Untuk select box dropdown */
+        div[data-baseweb="select"] {
+            background-color: #fff0f5 !important;
+            color: #3f0a29 !important;
+            border: 1px solid #db90be !important;
+            border-radius: 8px !important;
+        }
+    
+        /* Label */
         label {
             color: #3f0a29 !important;
             font-weight: 600;
         }
     
-        /* Dropdown arrow (selectbox) */
-        .stSelectbox > div[data-baseweb="select"] > div {
-            background-color: #fff0f5 !important;
-        }
-    
-        /* Scrollbar styling if needed */
+        /* Scrollbar (opsional) */
         ::-webkit-scrollbar {
             width: 8px;
         }
