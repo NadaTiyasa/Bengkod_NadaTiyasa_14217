@@ -94,14 +94,12 @@ if "menu" not in st.session_state:
 
 # ========================== MENU PILIHAN ==========================
 with st.sidebar:
-    st.image("logo.jpg", width=100)
     # Logo dan teks sambutan
     st.markdown("""
         <div style='text-align: center;'>
-            <h3 style='color:#ffffff; background-color:#620e2c; padding:10px; border-radius:10px;'>
-                Hai! Selamat datang di<br>Obesity Predictor!
-            </h3>
-            <p style='font-size: 14px; color: #3f0a29;'>
+            <img src='https://cdn-icons-png.flaticon.com/512/1048/1048953.png' width='80'/>
+            <h3 style='color:#ffffff;'>Hi! Selamat datang di<br>Obesity Predictor!</h3>
+            <p style='font-size: 14px; color: #fce4ec;'>
                 Di sini kamu bisa cek seberapa sehat gaya hidupmu dan prediksi tingkat obesitas berdasarkan kebiasaan harian.<br>
                 Gunakan fitur-fitur di bawah ini buat ngelihat tren atau riwayatmu juga, lho!<br><br>
                 <strong>Yuk kenali pola hidup kamu dan mulai hidup sehat! 💪</strong>
@@ -109,11 +107,7 @@ with st.sidebar:
         </div>
     """, unsafe_allow_html=True)
 
-    st.markdown("""
-        <div style='background-color:#620e2c; padding:10px; border-radius:10px; text-align:center;'>
-            <h2 style='color:#ffffff; margin:0;'>📌 Menu</h2>
-        </div>
-    """, unsafe_allow_html=True)
+    st.markdown("<h2 style='color:#db90be;'>📌 Menu</h2>", unsafe_allow_html=True)
 
     # Tombol menu interaktif dengan style dinamis
     def sidebar_button(label, key):
