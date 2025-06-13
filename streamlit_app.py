@@ -4,6 +4,7 @@ import numpy as np
 import joblib
 import matplotlib.pyplot as plt
 import seaborn as sns
+from PIL import Image
 
 # ========================== CONFIG & THEME ==========================
 st.set_page_config(page_title="Obesity Predictor", layout="centered")
@@ -93,10 +94,10 @@ if "menu" not in st.session_state:
 
 # ========================== MENU PILIHAN ==========================
 with st.sidebar:
+    st.image("logo.jpg", width=100)
     # Logo dan teks sambutan
     st.markdown("""
         <div style='text-align: center;'>
-            <img src='https://cdn-icons-png.flaticon.com/512/1048/1048953.png' width='80'/>
             <h3 style='color:#ffffff; background-color:#620e2c; padding:10px; border-radius:10px;'>
                 Hai! Selamat datang di<br>Obesity Predictor!
             </h3>
@@ -108,7 +109,7 @@ with st.sidebar:
         </div>
     """, unsafe_allow_html=True)
 
-        st.markdown("""
+    st.markdown("""
         <div style='background-color:#620e2c; padding:10px; border-radius:10px; text-align:center;'>
             <h2 style='color:#ffffff; margin:0;'>📌 Menu</h2>
         </div>
