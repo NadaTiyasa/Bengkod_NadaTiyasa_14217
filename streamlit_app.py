@@ -107,8 +107,6 @@ with st.sidebar:
         </div>
     """, unsafe_allow_html=True)
 
-    st.markdown("<h2 style='color:#db90be;'>📌 Menu</h2>", unsafe_allow_html=True)
-
     # Tombol menu interaktif dengan style dinamis
     def sidebar_button(label, key):
         style = """
