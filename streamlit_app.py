@@ -4,6 +4,7 @@ import numpy as np
 import joblib
 import matplotlib.pyplot as plt
 import seaborn as sns
+from PIL import Image
 
 # ========================== CONFIG & THEME ==========================
 st.set_page_config(page_title="Obesity Predictor", layout="centered")
@@ -93,20 +94,26 @@ if "menu" not in st.session_state:
 
 # ========================== MENU PILIHAN ==========================
 with st.sidebar:
+    st.image("logo.jpg", width=100)
     # Logo dan teks sambutan
     st.markdown("""
         <div style='text-align: center;'>
-            <img src='https://cdn-icons-png.flaticon.com/512/1048/1048953.png' width='80'/>
-            <h3 style='color:#620e2c;'>Selamat datang di<br>Obesity Predictor!</h3>
-            <p style='font-size: 14px; color: #333333;'>
-                Web ini membantu Anda memprediksi tingkat obesitas berdasarkan data pribadi dan kebiasaan harian.<br>
-                Gunakan fitur di bawah ini untuk memahami pola kesehatan dari waktu ke waktu.<br><br>
-                <strong>Mari mulai perjalanan menuju hidup yang lebih sehat! 💪</strong>
+            <h3 style='color:#ffffff; background-color:#620e2c; padding:10px; border-radius:10px;'>
+                Hai! Selamat datang di<br>Obesity Predictor!
+            </h3>
+            <p style='font-size: 14px; color: #3f0a29;'>
+                Di sini kamu bisa cek seberapa sehat gaya hidupmu dan prediksi tingkat obesitas berdasarkan kebiasaan harian.<br>
+                Gunakan fitur-fitur di bawah ini buat ngelihat tren atau riwayatmu juga, lho!<br><br>
+                <strong>Yuk kenali pola hidup kamu dan mulai hidup sehat! 💪</strong>
             </p>
         </div>
     """, unsafe_allow_html=True)
 
-    st.markdown("<h2 style='color:#620e2c;'>📌 Menu</h2>", unsafe_allow_html=True)
+        st.markdown("""
+        <div style='background-color:#620e2c; padding:10px; border-radius:10px; text-align:center;'>
+            <h2 style='color:#ffffff; margin:0;'>📌 Menu</h2>
+        </div>
+    """, unsafe_allow_html=True)
 
     # Tombol menu interaktif dengan style dinamis
     def sidebar_button(label, key):
@@ -135,7 +142,7 @@ with st.sidebar:
 
 # ========================== MENU 1: PREDIKSI ==========================
 if st.session_state.menu == "prediksi":
-    st.title("💡 Prediksi Tingkat Obesitas Anda")
+    st.title("💡 Cek Tingkat Obesitas Kamu")
     with st.form("form_prediksi"):
         col1, col2 = st.columns(2)
 
@@ -184,7 +191,7 @@ if st.session_state.menu == "prediksi":
 
         st.markdown(f"""
             <div style="background-color:#620e2c; color:white; padding:12px 16px; border-radius:10px; text-align:center; margin-top:15px;">
-                <p style="margin:0; font-size:16px;">Tingkat obesitas Anda diprediksi sebagai:</p>
+                <p style="margin:0; font-size:16px;">Tingkat obesitas kamu diprediksi sebagai:</p>
                 <p style="margin:5px 0 0; font-size:20px; font-weight:bold; color:#ffe4f1;">{kategori}</p>
             </div>
         """, unsafe_allow_html=True)
@@ -217,7 +224,7 @@ elif st.session_state.menu == "riwayat":
             st.session_state.riwayat_input = []
             st.success("Riwayat berhasil dihapus.")
     else:
-        st.info("Belum ada riwayat prediksi yang disimpan.")
+        st.info("Belum ada riwayat yang tersimpan nih. Yuk mulai prediksi dulu!")
 
 # ========================== MENU 3: STATISTIK ==========================
 elif st.session_state.menu == "statistik":
@@ -242,7 +249,7 @@ elif st.session_state.menu == "statistik":
         st.pyplot(fig2)
 
     else:
-        st.warning("Belum ada data prediksi. Silakan lakukan prediksi terlebih dahulu.")
+        st.warning("Belum ada data prediksi nih. Coba lakukan prediksi dulu ya!")
 
 # ========================== FOOTER ==========================
 st.markdown("---")
