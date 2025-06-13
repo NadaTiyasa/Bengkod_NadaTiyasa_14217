@@ -93,8 +93,22 @@ if "menu" not in st.session_state:
 
 # ========================== MENU PILIHAN ==========================
 with st.sidebar:
+    # Logo dan teks sambutan
+    st.markdown("""
+        <div style='text-align: center;'>
+            <img src='https://cdn-icons-png.flaticon.com/512/1048/1048953.png' width='80'/>
+            <h3 style='color:#620e2c;'>Selamat datang di<br>Obesity Predictor!</h3>
+            <p style='font-size: 14px; color: #333333;'>
+                Web ini membantu Anda memprediksi tingkat obesitas berdasarkan data pribadi dan kebiasaan harian.<br>
+                Gunakan fitur di bawah ini untuk memahami pola kesehatan dari waktu ke waktu.<br><br>
+                <strong>Mari mulai perjalanan menuju hidup yang lebih sehat! 💪</strong>
+            </p>
+        </div>
+    """, unsafe_allow_html=True)
+
     st.markdown("<h2 style='color:#620e2c;'>📌 Menu</h2>", unsafe_allow_html=True)
 
+    # Tombol menu interaktif dengan style dinamis
     def sidebar_button(label, key):
         style = """
             background-color: #3f0a29; color: white;
@@ -111,6 +125,7 @@ with st.sidebar:
             </form>
         """, unsafe_allow_html=True)
 
+    # Tombol menu
     if st.button("🔍 Prediksi Obesitas"):
         st.session_state.menu = "prediksi"
     if st.button("📂 Riwayat Prediksi"):
