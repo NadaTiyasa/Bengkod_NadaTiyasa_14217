@@ -9,6 +9,8 @@ from PIL import Image
 # ========================== CONFIG & THEME ==========================
 st.set_page_config(page_title="Obesity Predictor", layout="centered")
 
+ordered_cols = ['Age', 'Gender', 'Height', 'Weight', 'CALC', 'FAVC', 'FCVC', 'NCP', 'SCC', 'CH2O', 'family_history_with_overweight', 'FAF', 'CAEC']
+
 def apply_custom_theme():
     st.markdown("""
         <style>
@@ -16,13 +18,11 @@ def apply_custom_theme():
             background-color: #fce4ec;
         }    
 
-        /* Label */
         label {
             color: #3f0a29 !important;
             font-weight: 600;
         }
-    
-        /* Scrollbar (opsional) */
+
         ::-webkit-scrollbar {
             width: 8px;
         }
@@ -76,9 +76,7 @@ def apply_custom_theme():
         </style>
     """, unsafe_allow_html=True)
 
-
 apply_custom_theme()
-
 
 # ========================== LOAD MODEL ==========================
 model = joblib.load("model.pkl")
@@ -94,7 +92,6 @@ if "menu" not in st.session_state:
 
 # ========================== MENU PILIHAN ==========================
 with st.sidebar:
-    # Logo dan teks sambutan
     st.markdown("""
         <div style='text-align: center;'>
             <img src='https://cdn-icons-png.flaticon.com/512/1048/1048953.png' width='80'/>
@@ -107,24 +104,6 @@ with st.sidebar:
         </div>
     """, unsafe_allow_html=True)
 
-    # Tombol menu interaktif dengan style dinamis
-    def sidebar_button(label, key):
-        style = """
-            background-color: #3f0a29; color: white;
-            font-weight: bold; border-radius: 10px; padding: 8px; width: 100%;
-            margin-bottom: 8px; border: none;
-        """ if st.session_state.menu == key else """
-            background-color: #f5bcc1; color: #3f0a29;
-            border-radius: 10px; padding: 8px; width: 100%;
-            margin-bottom: 8px; border: none;
-        """
-        return st.markdown(f"""
-            <form action="" method="post">
-                <button name="menu" type="submit" style="{style}">{label}</button>
-            </form>
-        """, unsafe_allow_html=True)
-
-    # Tombol menu
     if st.button("🔍 Prediksi Obesitas"):
         st.session_state.menu = "prediksi"
     if st.button("📂 Riwayat Prediksi"):
@@ -145,6 +124,7 @@ if st.session_state.menu == "prediksi":
             weight = st.number_input("Berat Badan (kg)", 20, 200, 70)
             favc = st.selectbox("Sering Makan Tinggi Kalori?", ["Ya", "Tidak"])
             fcvc = st.number_input("Konsumsi Sayur (1–3)", 1.0, 3.0, 2.0, step=0.1)
+            ncp = st.number_input("Jumlah Makan Utama per Hari (NCP)", 1, 7, 3)
 
         with col2:
             scc = st.selectbox("Pantau Kalori Harian?", ["Ya", "Tidak"])
@@ -165,6 +145,7 @@ if st.session_state.menu == "prediksi":
             "CALC": {"Tidak": 0, "Kadang-kadang": 1, "Sering": 2, "Selalu": 3}[calc],
             "FAVC": 1 if favc == "Ya" else 0,
             "FCVC": fcvc,
+            "NCP": ncp,
             "SCC": 1 if scc == "Ya" else 0,
             "CH2O": ch2o,
             "family_history_with_overweight": 1 if fhwo == "Ya" else 0,
@@ -173,6 +154,7 @@ if st.session_state.menu == "prediksi":
         }
 
         user_input = pd.DataFrame([input_dict])
+        user_input = user_input[ordered_cols]
         X_scaled = scaler.transform(user_input)
         prediction = model.predict(X_scaled)
         result = label_encoder.inverse_transform(prediction)[0]
@@ -187,7 +169,7 @@ if st.session_state.menu == "prediksi":
                 <p style="margin:5px 0 0; font-size:20px; font-weight:bold; color:#ffe4f1;">{kategori}</p>
             </div>
         """, unsafe_allow_html=True)
-    
+
         rekomendasi = {
             "Insufficient Weight": "🍽️ Perbanyak konsumsi kalori sehat...",
             "Normal Weight": "✅ Pertahankan pola hidup sehat...",
@@ -197,7 +179,7 @@ if st.session_state.menu == "prediksi":
             "Obesity Type II": "🚨 Intervensi profesional dibutuhkan...",
             "Obesity Type III": "🛑 Butuh penanganan medis intensif..."
         }
-        
+
         st.markdown(f"""
             <div style="background-color:#fff0f5; color:#3f0a29; padding:15px; border-left: 5px solid #db90be; border-radius:10px; margin-top:15px;">
                 {rekomendasi.get(kategori, "Tidak ada rekomendasi.")}
